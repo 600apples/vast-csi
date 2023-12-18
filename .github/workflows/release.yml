@@ -16,10 +16,6 @@ jobs:
 
       - name: Configure Git
         run: |
-          ls -la
-          echo "-----------444----========--------"
-          printenv
-
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
         
@@ -36,3 +32,4 @@ jobs:
         uses: helm/chart-releaser-action@v1.6.0
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          CR_PAGES_BRANCH: gh_pages_beta
