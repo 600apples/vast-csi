@@ -17,8 +17,7 @@ jobs:
           echo "-----------------------"
           printenv
           echo "-----------------------"
-          python -V || true
-          python3 -V || true
+
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
           
