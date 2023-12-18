@@ -9,7 +9,6 @@ SHA = os.environ["GITHUB_SHA"][:7]
 VERSION = ROOT.joinpath("version.txt").read_text().strip().lstrip("v")
 CHART = ROOT / "charts" / "vastcsi" / "Chart.yaml"
 
-
 if __name__ == '__main__':
     is_beta = BRANCH.startswith("beta")
     version = f"{VERSION}-beta.{SHA}" if is_beta else f"{VERSION}-{SHA}"
@@ -19,10 +18,8 @@ if __name__ == '__main__':
             line = line.replace(line, f"version: {version}\n")
         sys.stdout.write(line)
 
-    print("chart content")
-    print(CHART.read_text())
-
-
-
-
-
+    ROOT.joinpath("releaser-config.yaml").open("w").write(
+        f"""
+pages_branch: gh_pages_beta
+release-name-template: helm-{{ .Version }}
+""")

@@ -32,11 +32,4 @@ jobs:
         uses: helm/chart-releaser-action@v1.6.0
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          CR_PAGES_BRANCH: gh_pages_beta
-          CR_GIT_REPO: helm-charts
-          CR_PACKAGES_WITH_INDEX: "true"
-          CR_SKIP_UPLOAD: "true"
-          RELEASE_NAME_TEAMPLATE: "helm-{{ .Version }}"
-          release-name-template: "helm-{{ .Version }}"
-          cr-release-name-template: "helm-{{ .Version }}"
-          release_name_template: "helm-{{ .Version }}"
+          CR_CONFIG: releaser-config.yaml
