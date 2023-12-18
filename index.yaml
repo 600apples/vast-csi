@@ -53,6 +53,23 @@ entries:
     - vastcsi-2.3.0-beta.ce5fac3.tgz
     version: 2.3.0-beta.ce5fac3
   - apiVersion: v2
+    created: "2023-12-18T17:30:17.084764422Z"
+    description: Helm chart for Deployment of VAST Container Storage Interface (CSI)
+    digest: 728a63311c7a6b2cc93b27560cc44e4fe3b7ed8edba28a47c91bfd4d4f47915c
+    home: https://support.vastdata.com/hc/en-us/articles/8022914098716
+    icon: https://uploads.vastdata.com/2020/04/vast-white-1.svg
+    keywords:
+    - vast
+    - csi
+    - driver
+    - vastdata
+    - csi-driver
+    name: vastcsi
+    type: application
+    urls:
+    - vastcsi-2.3.0-beta.c681934.tgz
+    version: 2.3.0-beta.c681934
+  - apiVersion: v2
     created: "2023-12-18T16:55:16.455760892Z"
     description: Helm chart for Deployment of VAST Container Storage Interface (CSI)
     digest: 91105519618c7c4967bc0305e6e1345055c784a284b5ab54e1af06834f90f60b
@@ -188,4 +205,4 @@ entries:
     urls:
     - https://github.com/600apples/vast-csi/releases/download/vastcsi-2.3.0-4679617/vastcsi-2.3.0-4679617.tgz
     version: 2.3.0-4679617
-generated: "2023-12-18T17:29:13.616503902Z"
+generated: "2023-12-18T17:30:17.084865109Z"
