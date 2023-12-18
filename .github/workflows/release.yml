@@ -19,11 +19,13 @@ jobs:
           python .github/workflows/prepare_releaser_configuration.py
 
       - name: Configure Git
+        if: ${{ hasFiles(releaser-config.yaml) }}
         run: |
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
 
       - name: Run chart-releaser
+        if: ${{ hasFiles(releaser-config.yaml) }}
         uses: helm/chart-releaser-action@v1.6.0
         with:
           config: releaser-config.yaml
