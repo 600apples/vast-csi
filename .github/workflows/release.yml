@@ -26,9 +26,7 @@ jobs:
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.6.0
         with:
-          config: releaser-config.yaml
-          packages_with_index: true
-          skip-upload: true
+          pages_branch: gh_pages_beta
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           CR_SKIP_UPLOAD: "true"
