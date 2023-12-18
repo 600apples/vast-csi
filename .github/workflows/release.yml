@@ -23,7 +23,7 @@ jobs:
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
           
           
-          python ./github/workflows/prepare_helm_chart.py
+          python .github/workflows/prepare_helm_chart.py
 
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.4.0
