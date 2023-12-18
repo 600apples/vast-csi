@@ -15,7 +15,7 @@ if __name__ == '__main__':
     if is_beta:
         version = f"{VERSION}-beta.{RUN_ID}"
     else:
-        version = f"{VERSION}.{RUN_ID}"
+        version = f"{VERSION}-{RUN_ID}"
 
     for line in fileinput.input(CHART, inplace=True):
         if line.startswith("version:"):
