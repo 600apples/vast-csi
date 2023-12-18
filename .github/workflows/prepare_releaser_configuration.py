@@ -1,4 +1,11 @@
+"""
+This script generates the releaser configuration file releaser-config for the following `Run chart-releaser` step.
+Releases are separated into two categories: beta and stable.
+Beta releases are created from branches with name pattern <version>-beta
+Stable releases are created from branches with a valid version number (e.g. `1.0.0`).
+"""
 import os
+import re
 import sys
 from pathlib import Path
 import fileinput
@@ -10,20 +17,22 @@ VERSION = ROOT.joinpath("version.txt").read_text().strip().lstrip("v")
 CHART = ROOT / "charts" / "vastcsi" / "Chart.yaml"
 
 if __name__ == '__main__':
-    is_beta = BRANCH.startswith("beta")
+    if not re.search('[0-9]+\.[0-9]+\.?[0-9]*', BRANCH):
+        raise ValueError(f"Branch name must either start with 'beta' or be a valid version number. Got: {BRANCH}")
+    is_beta = "beta" in BRANCH
+
     release_name_template = "helm-{{ .Version }}"
-    pages_branch = "gh_pages_beta" if is_beta else "gh-pages"
-    skip_upload = "true" if is_beta else "false"
+    pages_branch = "gh-pages-beta" if is_beta else "gh-pages"
     version = f"{VERSION}-beta.{SHA}" if is_beta else f"{VERSION}-{SHA}"
 
+    # Create unique release name based on version and commit sha
     for line in fileinput.input(CHART, inplace=True):
         if line.startswith("version:"):
             line = line.replace(line, f"version: {version}\n")
         sys.stdout.write(line)
 
-    ROOT.joinpath("releaser-config.yaml").open("w").write(
+    ROOT.joinpath("releaser-config").open("w").write(
         f"""
             pages-branch: {pages_branch}
             release-name-template: {release_name_template}
         """)
-
