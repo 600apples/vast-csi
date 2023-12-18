@@ -1,0 +1,249 @@
+####################
+# VAST REST SESSION ATTRIBUTES
+####################
+# Secret name, which corresponds to a secret containing credentials to login - must be provided by user
+# Secret must contain username and password fields
+# Example: kubectl create secret generic vast-mgmt --from-literal=username='< VAST username >' --from-literal=password='< VAST password >'
+secretName: ""
+
+# API endpoint of VAST appliance - must be provided by user
+endpoint: ""
+
+# Set true to enable certificate validity test
+verifySsl: false
+
+# Path (absolute or relative) to SSL certificate for verifying the VAST REST API.
+# Must be set using `set-file` option eg `--set-file sslCert=< path to sslCert.crt >`
+# sslCertsSecretName secret and sslCert option in values.yaml are mutually exclusive. Make sure to use only one of them.
+sslCert: ""
+# Secret name, which corresponds to a secret containing an SSL certificate for verifying the VAST REST API
+# Example: kubectl create secret generic vast-tls --from-file=ca-bundle.crt=< path to sslCert.crt >
+# sslCertsSecretName secret and sslCert option in values.yaml are mutually exclusive. Make sure to use only one of them.
+sslCertsSecretName: ""
+
+####################
+# DELETE VOLUMES
+####################
+# Dedicated vip pool to delete volumes. Can have the same value as regular StorageClass option `vipPool`
+# - value is not required when VAST cluster version is 4.6.0 onwards and `DontUseTrashApi` flag is set to false
+deletionVipPool: ""
+# Dedicated view policy to delete volumes. Can have the same value as regular StorageClass option `viewPolicy`
+# - value is not required when VAST cluster version is 4.6.0 onwards and `DontUseTrashApi` flag is set to false
+deletionViewPolicy: ""
+# When the flag is set to 'true', the controller will opt to using a local mount for deleting data from discarded volumes,
+# as opposed to sending the request to the VMS over REST.
+# Please contact VAST Support before modifying this setting.
+dontUseTrashApi: false
+
+####################
+# VAST CSI STORAGE CLASS OPTIONS
+####################
+# storageClassDefaults is set of options that will be using by default if option is not provided
+# for particular storageClass in 'storageClasses' section
+storageClassDefaults:
+  # Where volumes will be located on VAST - must be provided by user
+  storagePath: ""
+  # Name of VAST VIP pool to use - must be provided by user
+  vipPool: ""
+  # VAST policy name to create views - must be provided by user
+  viewPolicy: ""
+  # Allows resizing existing volumes
+  allowVolumeExpansion: true
+  # Load-balancing strategy
+  # Options:
+  #   roundrobin, random
+  lbStrategy: roundrobin
+  # If true, sets Vast CSI as the cluster-wide storage class default
+  setDefaultStorageClass: false
+  # String template for CSI-provisioned volume names, within VAST
+  volumeNameFormat: "csi:{namespace}:{name}:{id}"
+  # String template for CSI-provisioned ephemeral volumes, within VAST
+  ephemeralVolumeNameFormat: "csi:{namespace}:{name}:{id}"
+  # Add any extra NFS options desired here
+  mountOptions: []
+  # Name of QoS policy associates with the view.
+  qosPolicy: ""
+
+# Default storage class to use with CSI DRIVER.
+# The only required value is 'vipPool' name where user should provide name of existing vip pool on
+# VAST cluster.
+# User can extend this section using more storage classes with different storage class parameters and options.
+storageClasses: {}
+  # StorageClass name. This field must be unique across all storage classes.
+  # vastdata-filesystem:
+    # Name of VAST VIP pool to use - must be provided by user
+    # vipPool: ""
+    # ... Any other options from 'storageClassDefaults' section. If not provided then default value
+    # will be used.
+# User can add more storage classes to this section eg:
+#  vastdata-filesystem2:
+#    vipPool: "vippool-2"
+#    .... other options
+#
+#  vastdata-filesystem3:
+#    vipPool: "vippool-3"
+#    ....  other options
+
+####################
+# VAST PROVISIONER RUNTIME PARAMETERS
+####################
+
+# The number of worker threads the CSI plugin use to serve requests simultaneously.
+numWorkers: 10
+# Timeout of all calls to CSI driver.
+operationTimeout: 15
+# Each time a failure occurs, sidecar containers initiate retries
+# but only after waiting for 'operationRetryIntervalStart' seconds
+# which then doubles with each subsequent failure  until it reaches `operationRetryIntervalMax`
+operationRetryIntervalStart: 10
+
+# Maximum interval between attempts.
+operationRetryIntervalMax: 60
+
+# Truncate VAST quota name if name length is greater then this number.
+# set `truncateVolumeName: null` to disable truncation.
+truncateVolumeName: 64
+
+####################
+# VAST CSI SNAPSHOTS CLASS OPTIONS
+####################
+snapshotClass:
+  snapshotClassName: "vastdata-snapshot"
+  # On snapshot delete behavior. By default, Vast Cluster snapshot will be removed as well.
+  deletionPolicy: "Delete"
+  # If true, sets Vast CSI as the cluster-wide snapshot class default
+  setDefaultStorageClass: true
+  # String template for CSI-provisioned snapshot names, within VAST
+  snapshotNameFormat: "csi:{namespace}:{name}:{id}"
+
+
+####################
+# VAST CONTROLLER AND NODE IMAGE SPECIFICATION
+####################
+
+image:
+  csiVastPlugin:
+    repository: vastdataorg/csi
+    tag: v2.2.6
+    imagePullPolicy: IfNotPresent
+  csiAttacher:
+    repository: k8s.gcr.io/sig-storage/csi-attacher
+    tag: v3.1.0
+    imagePullPolicy: IfNotPresent
+  csiNodeDriverRegistrar:
+    repository: k8s.gcr.io/sig-storage/csi-node-driver-registrar
+    tag: v2.0.1
+    imagePullPolicy: IfNotPresent
+  csiProvisioner:
+    repository: k8s.gcr.io/sig-storage/csi-provisioner
+    tag: v3.2.1
+    imagePullPolicy: IfNotPresent
+  csiResizer:
+    repository: k8s.gcr.io/sig-storage/csi-resizer
+    tag: v1.1.0
+    imagePullPolicy: IfNotPresent
+  csiSnapshotter:
+    repository: k8s.gcr.io/sig-storage/csi-snapshotter
+    tag: v6.0.1
+    imagePullPolicy: IfNotPresent
+
+####################
+# VAST CONTROLLER AND NODE BEHAVIOR
+#
+# WARNING - these parameters are for advanced users.
+# Setting these incorrectly may prevent the VAST CSI Driver from running correctly.
+#  We recommend to consult with VAST Support before changing any of the following parameters
+####################
+
+controller:
+  # runOnMaster flag indicated if CSI Controller should be run on master.
+  runOnMaster: false
+  # runOnControlPlane flag indicated if CSI Controller should be run on control plane node.
+  runOnControlPlane: false
+  # determine how DNS (Domain Name System) resolution should be handled within Pod.
+  # available values: Default, ClusterFirstWithHostNet, ClusterFirst
+  dnsPolicy: Default
+  # nodeSelector is the way to restrict pod to be assigned on certain node/nodes.
+  # Specify node selector if you want node and controller containers to be assigned only to specific node/nodes of
+  # your cluster.
+  #  https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector.
+  nodeSelector: {}
+  # If specified, the pod's tolerations
+  # https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/
+  tolerations: []
+  # If specified, the pod's scheduling constraints
+  # https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity
+  affinity: {}
+  # Resources describes the compute resource requirements.
+  resources:
+    csiProvisioner:
+      limits:
+        memory: 400Mi
+      requests:
+        cpu: 10m
+        memory: 20Mi
+    csiSnapshotter:
+      limits:
+        memory: 200Mi
+      requests:
+        cpu: 10m
+        memory: 20Mi
+    csiAttacher:
+      limits:
+        memory: 200Mi
+      requests:
+        cpu: 10m
+        memory: 20Mi
+    csiResizer:
+      limits:
+        memory: 200Mi
+      requests:
+        cpu: 10m
+        memory: 20Mi
+    csiVastPlugin:
+      limits:
+        memory: 400Mi
+      requests:
+        cpu: 100m
+        memory: 50Mi
+  # priorityClassName is the name of priority class to be used for the pod.
+  priorityClassName: system-cluster-critical
+
+node:
+  # See controller.dnsPolicy section for details
+  dnsPolicy: Default
+  # See controller.nodeSelector section for details
+  nodeSelector: {}
+  # See controller.tolerations section for details
+  tolerations: []
+  # See controller.affinity section for details
+  affinity: {}
+  # see controller.resources section for details
+  resources:
+    nodeDriverRegistrar:
+      limits:
+        memory: 100Mi
+      requests:
+        cpu: 10m
+        memory: 20Mi
+    csiVastPlugin:
+      limits:
+        memory: 400Mi
+      requests:
+        cpu: 100m
+        memory: 50Mi
+  # See controller.priorityClassName section for details
+  priorityClassName: system-cluster-critical
+
+# The path to the kubelet root dir. must be provided when Kubernetes is not installed in its default directory.
+kubeletPath: "/var/lib/kubelet"
+# rbac flag indicated it Role-based access control from this chart should be used to create apropriate
+# permissions for CSI Controller and CSI Node. Use default value unless you understand necessary permissions
+# and can provide it other way.
+rbac: true
+# Reference to one or more secrets to be used when pulling images
+# ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+# - name: "image-pull-secret"
+imagePullSecrets: []
+# Log level of CSI plugin
+logLevel: 5
