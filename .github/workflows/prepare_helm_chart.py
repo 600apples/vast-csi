@@ -1,10 +1,12 @@
 import os
 from pathlib import Path
+import fileinput
 
 ROOT = Path.cwd()
 BRANCH = os.environ["GITHUB_REF_NAME"]
 RUN_ID = os.environ["GITHUB_RUN_ID"][:5]
 VERSION = ROOT.joinpath("version.txt").read_text().strip().lstrip("v")
+CHART = ROOT / "charts" / "vastcsi" / "Chart.yaml"
 
 
 if __name__ == '__main__':
@@ -14,10 +16,14 @@ if __name__ == '__main__':
     else:
         version = f"{VERSION}.{RUN_ID}"
 
+    for line in fileinput.input(CHART, inplace=True):
+        if line.startswith("version:"):
+            line.replace(line, f"version: {version}")
+            print(f"version: {version}")
 
-    print(f"version: {version}")
 
-
+    print("chart content")
+    print(CHART.read_text())
 
 
 
