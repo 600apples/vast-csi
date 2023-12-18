@@ -12,10 +12,7 @@ CHART = ROOT / "charts" / "vastcsi" / "Chart.yaml"
 
 if __name__ == '__main__':
     is_beta = BRANCH.startswith("beta")
-    if is_beta:
-        version = f"{VERSION}-beta.{SHA}"
-    else:
-        version = f"{VERSION}-{SHA}"
+    version = f"{VERSION}-beta.{SHA}" if is_beta else f"{VERSION}-{SHA}"
 
     for line in fileinput.input(CHART, inplace=True):
         if line.startswith("version:"):
