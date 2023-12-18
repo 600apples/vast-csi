@@ -11,6 +11,11 @@ CHART = ROOT / "charts" / "vastcsi" / "Chart.yaml"
 
 if __name__ == '__main__':
     is_beta = BRANCH.startswith("beta")
+
+    release_name_template = "helm-{{ .Version }}"
+    pages_branch = "gh_pages_beta" if is_beta else "gh-pages"
+
+
     version = f"{VERSION}-beta.{SHA}" if is_beta else f"{VERSION}-{SHA}"
 
     for line in fileinput.input(CHART, inplace=True):
@@ -20,6 +25,6 @@ if __name__ == '__main__':
 
     ROOT.joinpath("releaser-config.yaml").open("w").write(
         f"""
-pages_branch: gh_pages_beta
-release-name-template: helm-{{ .Version }}
+pages_branch: {pages_branch}
+release-name-template: {release_name_template}
 """)
