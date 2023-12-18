@@ -14,6 +14,9 @@ if __name__ == '__main__':
 
     release_name_template = "helm-{{ .Version }}"
     pages_branch = "gh_pages_beta" if is_beta else "gh-pages"
+    packages_with_index = "true" if is_beta else "false"
+    skip_upload = "true" if is_beta else "false"
+
 
 
     version = f"{VERSION}-beta.{SHA}" if is_beta else f"{VERSION}-{SHA}"
@@ -26,5 +29,7 @@ if __name__ == '__main__':
     ROOT.joinpath("releaser-config.yaml").open("w").write(
         f"""
 pages_branch: {pages_branch}
-release-name-template: {release_name_template}
+release_name_template: {release_name_template}
+packages_with_index: {packages_with_index}
+skip_upload: {skip_upload}
 """)
