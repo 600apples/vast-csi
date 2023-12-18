@@ -1,0 +1,21 @@
+apiVersion: v1
+entries:
+  vastcsi:
+  - apiVersion: v2
+    created: "2023-12-18T17:55:38.399088425Z"
+    description: Helm chart for Deployment of VAST Container Storage Interface (CSI)
+    digest: 3c48e85774e82e1bcc4705a38a3d965f4ce387b0c6d1fff18179c41059d72fe5
+    home: https://support.vastdata.com/hc/en-us/articles/8022914098716
+    icon: https://uploads.vastdata.com/2020/04/vast-white-1.svg
+    keywords:
+    - vast
+    - csi
+    - driver
+    - vastdata
+    - csi-driver
+    name: vastcsi
+    type: application
+    urls:
+    - https://github.com/600apples/vast-csi/releases/download/helm-2.3.0-beta.043d3ec/vastcsi-2.3.0-beta.043d3ec.tgz
+    version: 2.3.0-beta.043d3ec
+generated: "2023-12-18T17:55:38.399098854Z"
