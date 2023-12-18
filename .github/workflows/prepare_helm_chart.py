@@ -19,7 +19,7 @@ if __name__ == '__main__':
 
     for line in fileinput.input(CHART, inplace=True):
         if line.startswith("version:"):
-            line = line.replace(line, f"version: {version}")
+            line = line.replace(line, f"version: {version}\n")
         sys.stdout.write(line)
 
     print("chart content")
