@@ -28,5 +28,4 @@ if __name__ == '__main__':
 pages-branch: {pages_branch}
 release-name-template: {release_name_template}
 packages_with_index: {packages_with_index}
-skip-upload: {skip_upload}
 """)
