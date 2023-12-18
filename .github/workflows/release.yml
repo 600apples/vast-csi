@@ -21,6 +21,9 @@ jobs:
           python3 -V || true
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+          
+          
+          python ./github/workflows/prepare_helm_chart.py
 
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.4.0
