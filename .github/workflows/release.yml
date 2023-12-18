@@ -25,6 +25,8 @@ jobs:
         
       - name: Install Helm
         uses: azure/setup-helm@v3
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           
       - name: Prepare Helm Chart
         run: |
