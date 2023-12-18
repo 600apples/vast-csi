@@ -31,3 +31,5 @@ jobs:
           skip_upload: true
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          CR_SKIP_UPLOAD: "true"
+
