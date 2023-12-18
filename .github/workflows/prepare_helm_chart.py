@@ -8,9 +8,9 @@ VERSION = ROOT.joinpath("version.txt").read_text().strip()
 
 
 if __name__ == '__main__':
-    print(f"::set-output name=branch::{BRANCH}")
-    print(f"::set-output name=run_id::{RUN_ID}")
-    print(f"::set-output name=version::{VERSION}")
+    print(f"branch {BRANCH}")
+    print(f"name=run_id {RUN_ID}")
+    print(f"name=version {VERSION}")
 
 
 
