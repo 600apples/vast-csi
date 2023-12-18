@@ -11,7 +11,6 @@ CHART = ROOT / "charts" / "vastcsi" / "Chart.yaml"
 
 if __name__ == '__main__':
     is_beta = BRANCH.startswith("beta")
-
     release_name_template = "helm-{{ .Version }}"
     pages_branch = "gh_pages_beta" if is_beta else "gh-pages"
     skip_upload = "true" if is_beta else "false"

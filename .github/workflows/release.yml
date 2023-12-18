@@ -19,9 +19,9 @@ jobs:
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
 
-      - name: Prepare Helm Chart
+      - name: Prepare releaser configuration
         run: |
-          python .github/workflows/prepare_helm_chart.py
+          python .github/workflows/prepare_releaser_configuration.py
 
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.6.0
@@ -29,4 +29,3 @@ jobs:
           config: releaser-config.yaml
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-
