@@ -28,5 +28,6 @@ jobs:
         with:
           config: releaser-config.yaml
           packages_with_index: true
+          skip_upload: true
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
