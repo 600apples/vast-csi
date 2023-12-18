@@ -36,4 +36,4 @@ jobs:
           CR_GIT_REPO: helm-charts
           CR_PACKAGES_WITH_INDEX: "true"
           CR_SKIP_UPLOAD: "true"
-          CR_RELEASE_NAME_TEAMPLATE: "helm-{{ .Version }}"
+          RELEASE_NAME_TEAMPLATE: "helm-{{ .Version }}"
