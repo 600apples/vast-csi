@@ -1,10 +1,7 @@
 name: Release Charts
 
+on: [push]
 
-on:
-  push:
-    tags-ignore:
-      - '**'
 
 permissions:
   contents: write
