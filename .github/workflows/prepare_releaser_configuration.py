@@ -35,7 +35,7 @@ if __name__ == '__main__':
             line = line.replace(line, f"version: {version}\n")
         sys.stdout.write(line)
 
-    ROOT.joinpath("releaser-config").open("w").write(
+    ROOT.joinpath("releaser-config.yml").open("w").write(
         f"""
             pages-branch: {pages_branch}
             release-name-template: {release_name_template}
