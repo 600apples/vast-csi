@@ -1,5 +1,5 @@
 """
-This script generates the releaser configuration file releaser-config for the following `Run chart-releaser` step.
+This script generates the releaser configuration file for the following `Run chart-releaser` step.
 Releases are separated into two categories: beta and stable.
 Beta releases are created from branches with name pattern <version>-beta
 Stable releases are created from branches with a valid version number (e.g. `1.0.0`).
@@ -19,7 +19,7 @@ CHART = ROOT / "charts" / "vastcsi" / "Chart.yaml"
 if __name__ == '__main__':
     if not re.search('[0-9]+\.[0-9]+\.?[0-9]*', BRANCH):
         sys.stderr.write(
-            f"Branch name must either start with 'beta' or be a valid version number. "
+            f"Branch name must contain a valid version number. "
             f"Got: {BRANCH}. Skipping release...\n"
         )
         sys.exit(0)
