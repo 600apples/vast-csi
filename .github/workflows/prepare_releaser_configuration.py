@@ -18,7 +18,8 @@ CHART = ROOT / "charts" / "vastcsi" / "Chart.yaml"
 
 if __name__ == '__main__':
     if not re.search('[0-9]+\.[0-9]+\.?[0-9]*', BRANCH):
-        raise ValueError(f"Branch name must either start with 'beta' or be a valid version number. Got: {BRANCH}")
+        sys.stderr.write(f"Branch name must either start with 'beta' or be a valid version number. Got: {BRANCH}\n")
+        sys.exit(0)
     is_beta = "beta" in BRANCH
 
     release_name_template = "helm-{{ .Version }}"
