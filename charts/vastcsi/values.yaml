@@ -100,7 +100,7 @@ operationRetryIntervalStart: 10
 # Maximum interval between attempts.
 operationRetryIntervalMax: 60
 
-# Truncate VAST quota name if name length is greater then this number.
+# Truncate VAST quota name if name length is greater than this number.
 # set `truncateVolumeName: null` to disable truncation.
 truncateVolumeName: 64
 
@@ -124,7 +124,7 @@ snapshotClass:
 image:
   csiVastPlugin:
     repository: vastdataorg/csi
-    tag: v2.2.6
+    tag: v2.4.0
     imagePullPolicy: IfNotPresent
   csiAttacher:
     repository: k8s.gcr.io/sig-storage/csi-attacher
