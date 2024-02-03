@@ -17,6 +17,9 @@ VERSION = ROOT.joinpath("version.txt").read_text().strip().lstrip("v")
 CHART = ROOT / "charts" / "vastcsi" / "Chart.yaml"
 
 if __name__ == '__main__':
+
+    print(os.environ)
+
     if not re.search('[0-9]+\.[0-9]+\.?[0-9]*', BRANCH):
         sys.stderr.write(
             f"Branch name must contain a valid version number. "
